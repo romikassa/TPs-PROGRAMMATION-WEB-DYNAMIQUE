@@ -6,29 +6,29 @@
     <title>inscriptionpfe</title>
 </head>
 <body>
-    <form>
+    <form action="/submit_form" method="post">
     <h3 align="center" valign="midlle">Formulaire d'inscription au PFE pour la filière SMI</h3>  
     <label for="nom">Nom:</label>
-    <input type="text" size="46"><br><br>
+    <input type="text" id="nom" name="nom" size="46"><br><br>
     <label for="prenom">Prénom:</label>
-    <input type="text" size="44"><br><br>
+    <input type="text" id="prenom" name="prenom" size="44"><br><br>
     <label for="nombre">Nombre des membres de groupe :</label>
-    <input type="number" value="0"><br><br>
+    <input type="number" id="nombre" name="nombre" value="0"><br><br>
     <label for="sujet">Sujet :</label>
-    <input type="text" size="46"><br><br>
+    <input type="text" id="sujet" name="sujet" size="46"><br><br>
     <label for="text" >Description :</label>
-    <input type="text" size="40"><br><br>
+    <input type="text" id="text" name="text" size="40"><br><br>
     <label for="date de debut">Date de début:</label>
-    <input type="date"><br><br>
+    <input type="date" id="date de debut" name="date de debut"><br><br>
     <label for="date de fin">Date de fin :</label>
-    <input type="date"><br><br>
+    <input type="date" id="date de fin" name="date de fin"><br><br>
     <label for="encadrent">Encadrent :</label>
-    <select>
-        <option>prof1</option>
-        <option>prof2</option>
-        <option>prof3</option>
-        <option>prof4</option>
-        <option>prof5</option>
+    <select name="profs" id="profs">
+        <option value="prof1">prof1</option>
+        <option value="prof2">prof2</option>
+        <option value="prof3">prof3</option>
+        <option value="prof4">prof4</option>
+        <option value="prof5">prof5</option>
     </select><br><br>
     <input type="submit"value="Envoyer">
     <input type="reset" value="Annuler">
