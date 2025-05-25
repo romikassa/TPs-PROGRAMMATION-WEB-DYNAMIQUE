@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EmploidutempsSMIs6Interactif</title>
+    <style>
+        .course-cell {
+            position: relative;
+        }
+        .chapters {
+            display: none;
+            position: absolute;
+            background-color: white;
+            text-align: center; 
+            width: 300px;
+        }
+        .course-cell:hover .chapters {
+            display: block;
+        }
+        .prof-name {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .form-field {
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            transition: border 0.3s;
+        }
+        .form-field:focus {
+            border: 2px solid #677EAB;
+            outline: none;
+        }
+
+
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        /* Style des noms de professeurs cliquables */
+        .prof-name {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        /* Cache/Show le formulaire avec :target */
+        .prof-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            z-index: 100;
+        }
+        .prof-form:target {
+            display: block;
+        }
+        
+        /* Style des champs de formulaire */
+        .form-field {
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            transition: border 0.3s;
+        }
+        .form-field:focus {
+            border: 2px solid #677EAB;
+            outline: none;
+        }
+        
+        /* Style du bouton fermer */
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 20px;
+            text-decoration: none;
+            color: #677EAB;
+        }
+    </style>
+</head>
+<body>
+    <table border="1" width="100%">
+        <tr>
+            <td align="center" valign="middle" width="33%">
+                <p>Département informatique <br>Filière : <strong>SMI</strong></p>
+            </td>
+            <td align="center" valign="middle" width="33%">
+                <img src="https://fpo.uiz.ac.ma/images/logo/logo1.png" width="150" height="100">
+            </td>
+            <td align="center" valign="middle" width="33%">
+                <p>Année Universitaire : 2024/2025 <br> SEMESTRE : 06</p>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <h3 align="center" valign="midlle">Emploi du temps</h3>
+    <table border="1" style="height: 200px;">
+        <tr style="color:rgb(103, 126, 171)">
+            <th style="background-color:rgb(103, 126, 171);">    </th>
+            <th style="background-color:rgb(103, 126, 171);"><font color="white">9h00-10h30</font></th>
+            <th style="background-color:rgb(103, 126, 171);"><font color="white">10h35-12h05</font></th>
+            <th style="background-color:rgb(0, 0, 0);"> </th>
+            <th style="background-color:rgb(103, 126, 171);"><font color="white">12h15-13h45</font></th>
+            <th style="background-color:rgb(103, 126, 171);"><font color="white">13h50-15h20</font></th>
+            <th style="background-color:rgb(0, 0, 0);"> </th>
+            <th style="background-color:rgb(103, 126, 171);"><font color="white">15h30-17h00</font></th>
+            <th style="background-color:rgb(103, 126, 171);"><font color="white">17h05-18h35</font></th>
+        </tr>
+        <tr>
+            <th style="background-color:rgb(175, 197, 238); writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed; height: 100px;"><font color="black">Lundi</font></th> <!-- on ne peux pas afficher un texte verticalement de bas vers le haut avec html donc ona utilisé css inline-->
+            <td></td>
+            <td></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td class="course-cell">
+            Programmation Web<br>
+            Dynamique<br>
+            Cm - Amphi A -<br>
+            <a href="#profForm" class="prof-name">Prof. K. Omari</a>
+            <div class="chapters">
+                <h4>Cours :</h4>
+                <ol>
+                    <li>Chapitre 1:Introduction à la programmation Orientée Objet et web.</li>
+                    <li>Chapitre 2:Exploration du Langage HTML.</li>
+                    <li>Chapitre 3:Exploration du Langage CSS.</li>
+                    <li>Chapitre 4:Exploration du Langage JS.</li>
+                </ol>
+            </div>
+            </td>
+            <td class="course-cell">
+            Programmation Web<br>
+            Dynamique<br>
+            Cm - Amphi A -<br>
+            <a href="#profForm" class="prof-name">Prof. K. Omari</a>
+            <div class="chapters">
+                <h4>Cours:</h4>
+                <ol>
+                    <li>Chapitre 1:Introduction à la programmation Orientée Objet et web.</li>
+                    <li>Chapitre 2:Exploration du Langage HTML.</li>
+                    <li>Chapitre 3:Exploration du Langage CSS.</li>
+                    <li>Chapitre 4:Exploration du Langage JS.</li>
+                </ol>
+            </div>
+            </td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th style="background-color:rgb(175, 197, 238);writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed; height: 100px;"><font color="black">Mercredi</font></th>
+            <td></td>
+            <td></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td></td>
+            <td></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th style="background-color:rgb(175, 197, 238);writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed; height: 100px;"><font color="black">Mercredi</font></th>
+            <td></td>
+            <td></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td></td>
+            <td></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th style="background-color:rgb(175, 197, 238);writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed; height: 100px;"><font color="black">Jeudi</font></th>
+            <td></td>
+            <td></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td class="course-cell">
+                Génie Logiciel Td/Tp-Amphi 
+            <a href="#profForm" class="prof-name">Prof. A.Bouain</a>
+            <div class="chapters">
+                <h4>Cours:</h4>
+                <ol>
+                    <li>Génie Logiciel.</li>
+                </ol>
+            </div>
+            </td>
+            <td class="course-cell">
+            Génie Logiciel Td/Tp-Amphi 
+            <a href="#profForm" class="prof-name">Prof. A.Bouain</a>
+            <div class="chapters">
+                <h4>Cours:</h4>
+                <ol>
+                    <li>Génie Logiciel.</li>
+                </ol>
+            </div>
+            </td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th style="background-color:rgb(175, 197, 238);writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed; height: 100px;"><font color="black">Vendredi</font></th>
+            <td></td>
+            <td></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td class="course-cell">
+            IHM
+                Td/Tp - Amphi A -
+                <a href="#profForm" class="prof-name">Prof. M. Benaddy</a>
+            <div class="chapters">
+                <h4>Cours:</h4>
+                <ol>
+                    <li>INTERFACES HOMME-MACHINE.</li>
+                </ol>
+            </div>
+            </td>
+            <td class="course-cell">
+            IHM
+                Td/Tp - Amphi A -
+                <a href="#profForm" class="prof-name">Prof. M. Benaddy</a>
+            <div class="chapters">
+                <h4>Cours:</h4>
+                <ol>
+                    <li>INTERFACES HOMME-MACHINE.</li>
+                </ol>
+            </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="background-color:rgb(175, 197, 238);writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed; height: 100px;"><font color="black">Samedi</font></th>
+            <td class="course-cell">
+           Modélisation
+                Cm- Amphi A -
+                <a href="#profForm" class="prof-name">Prof. A. El Mouatasim</a>
+            <div class="chapters">
+                <h4>Cours:</h4>
+                <ol>
+                    <li>Chapitre 1: Outils d’optimisation.</li>
+                    <li>Chapitre 2: Optimisation sans contrainte.</li>
+                    <li>Chapitre 3: Régression.</li>
+                    <li>Chapitre 4: Cluestrig.</li>
+                    <li>Chapitre 5: Optimisation sous contraintes.</li>
+                    <li>Chapitre 6: Optimisation avec contraintes linéaire.</li>
+                </ol>
+            </div>
+            </td>
+            <td class="course-cell">
+           Modélisation
+                Cm- Amphi A -
+                <a href="#profForm" class="prof-name">Prof. A. El Mouatasim</a>
+            <div class="chapters">
+                <h4>Cours:</h4>
+                <ol>
+                    <li>Chapitre 1: Outils d’optimisation.</li>
+                    <li>Chapitre 2: Optimisation sans contrainte.</li>
+                    <li>Chapitre 3: Régression.</li>
+                    <li>Chapitre 4: Cluestrig.</li>
+                    <li>Chapitre 5: Optimisation sous contraintes.</li>
+                    <li>Chapitre 6: Optimisation avec contraintes linéaire.</li>
+                </ol>
+            </div>
+            </td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td></td>
+            <td></td>
+            <td style="background-color:rgb(0, 0, 0);"></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <br>
+    <table border="1" style="height: 0.1px;">
+        <th >Les séances du vendredi</th>
+        <th>8h30-10h00 </th>
+        <th>10h05 - 11h35  </th>
+        <th style="background-color:rgb(0, 0, 0);width: 30px; ;"> </th>
+        <th>11h45 - 13h15 </th>
+        <th style="background-color:rgb(0, 0, 0);width: 200px;"> </th>
+        <th>15h00 - 16h30 </th>
+        <th style="background-color:rgb(0, 0, 0);width: 30px;"> </th>
+        <th style="width: 140px;">16h45 - 18h15 </th>
+    </table>
+    <div id="profForm" class="prof-form">
+        <a href="#" class="close-btn">×</a>
+        <h3 align="center">Contact</h3>
+        <form>
+            <div>
+                <label>Nom :</label>
+                <input type="text" class="form-field" id="profFullName" value="K. Omari">
+            </div>
+            <div>
+                <label>Pénom :</label>
+                <input type="text" class="form-field" id="profFullName" value="K. Omari">
+            </div>
+            <div>
+                <label>Sujet :</label>
+                <input type="email" class="form-field" id="profEmail">
+            </div>
+            <div>
+                <label>Description :</label>
+                <input type="tel" class="form-field" id="profPhone">
+            </div>
+            <button type="submit">Envoyer</button>
+            <button type="submit">Annuler</button>
+        </form>
+    </div>
+</body>
+</html>
