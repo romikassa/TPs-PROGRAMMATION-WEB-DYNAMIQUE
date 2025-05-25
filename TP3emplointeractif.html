@@ -3,57 +3,45 @@
 <head>
     <title>EmploidutempsSMIs6Interactif</title>
     <style>
+
+
+
+        /* concerne les chapitres */
         .course-cell {
             position: relative;
         }
-        .chapters {
+        .chapitres {
             display: none;
             position: absolute;
             background-color: white;
             text-align: center; 
             width: 300px;
         }
-        .course-cell:hover .chapters {
+        .cours-cell:hover .chapitres {
             display: block;
         }
-        .prof-name {
+        .prof-nom {
             color: blue;
             text-decoration: underline;
-            cursor: pointer;
         }
-        .form-field {
+        .form-champ {
             margin: 10px 0;
             padding: 8px;
             border: 1px solid #ccc;
             transition: border 0.3s;
         }
-        .form-field:focus {
-            border: 2px solid #677EAB;
-            outline: none;
-        }
 
 
 
-
+        /* concerne fform */
         table {
             border-collapse: collapse;
-            width: 100%;
         }
         td, th {
-            border: 1px solid #ddd;
+            border: 1px solid #000000; /* pour la bordure des cellules */
             padding: 8px;
-            text-align: center;
         }
-        
-        /* Style des noms de professeurs cliquables */
-        .prof-name {
-            color: blue;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        
-        /* Cache/Show le formulaire avec :target */
-        .prof-form {
+        .prof-form {  
             display: none;
             position: fixed;
             top: 50%;
@@ -66,28 +54,14 @@
         .prof-form:target {
             display: block;
         }
-        
-        /* Style des champs de formulaire */
-        .form-field {
-            margin: 10px 0;
-            padding: 8px;
-            border: 1px solid #ccc;
-            transition: border 0.3s;
-        }
-        .form-field:focus {
-            border: 2px solid #677EAB;
-            outline: none;
-        }
-        
-        /* Style du bouton fermer */
         .close-btn {
             position: absolute;
-            top: 5px;
             right: 10px;
             font-size: 20px;
-            text-decoration: none;
-            color: #677EAB;
         }
+
+
+        
     </style>
 </head>
 <body>
@@ -123,12 +97,12 @@
             <td></td>
             <td></td>
             <td style="background-color:rgb(0, 0, 0);"></td>
-            <td class="course-cell">
+            <td class="cours-cell">
             Programmation Web<br>
             Dynamique<br>
             Cm - Amphi A -<br>
-            <a href="#profForm" class="prof-name">Prof. K. Omari</a>
-            <div class="chapters">
+            <a href="#profForm" class="prof-nom">Prof. K. Omari</a>
+            <div class="chapitres">
                 <h4>Cours :</h4>
                 <ol>
                     <li>Chapitre 1:Introduction à la programmation Orientée Objet et web.</li>
@@ -138,12 +112,12 @@
                 </ol>
             </div>
             </td>
-            <td class="course-cell">
+            <td class="cours-cell">
             Programmation Web<br>
             Dynamique<br>
             Cm - Amphi A -<br>
-            <a href="#profForm" class="prof-name">Prof. K. Omari</a>
-            <div class="chapters">
+            <a href="#profForm" class="prof-nom">Prof. K. Omari</a>
+            <div class="chapitres">
                 <h4>Cours:</h4>
                 <ol>
                     <li>Chapitre 1:Introduction à la programmation Orientée Objet et web.</li>
@@ -194,10 +168,10 @@
                 </ol>
             </div>
             </td>
-            <td class="course-cell">
+            <td class="cours-cell">
             Génie Logiciel Td/Tp-Amphi 
-            <a href="#profForm" class="prof-name">Prof. A.Bouain</a>
-            <div class="chapters">
+            <a href="#profForm" class="prof-nom">Prof. A.Bouain</a>
+            <div class="chapitres">
                 <h4>Cours:</h4>
                 <ol>
                     <li>Génie Logiciel.</li>
@@ -219,19 +193,19 @@
             <td class="course-cell">
             IHM
                 Td/Tp - Amphi A -
-                <a href="#profForm" class="prof-name">Prof. M. Benaddy</a>
-            <div class="chapters">
+                <a href="#profForm" class="prof-nom">Prof. M. Benaddy</a>
+            <div class="chapitres">
                 <h4>Cours:</h4>
                 <ol>
                     <li>INTERFACES HOMME-MACHINE.</li>
                 </ol>
             </div>
             </td>
-            <td class="course-cell">
+            <td class="cours-cell">
             IHM
                 Td/Tp - Amphi A -
-                <a href="#profForm" class="prof-name">Prof. M. Benaddy</a>
-            <div class="chapters">
+                <a href="#profForm" class="prof-nom">Prof. M. Benaddy</a>
+            <div class="chapitres">
                 <h4>Cours:</h4>
                 <ol>
                     <li>INTERFACES HOMME-MACHINE.</li>
@@ -244,8 +218,8 @@
             <td class="course-cell">
            Modélisation
                 Cm- Amphi A -
-                <a href="#profForm" class="prof-name">Prof. A. El Mouatasim</a>
-            <div class="chapters">
+                <a href="#profForm" class="prof-nom">Prof. A. El Mouatasim</a>
+            <div class="chapitres">
                 <h4>Cours:</h4>
                 <ol>
                     <li>Chapitre 1: Outils d’optimisation.</li>
@@ -257,11 +231,11 @@
                 </ol>
             </div>
             </td>
-            <td class="course-cell">
+            <td class="cours-cell">
            Modélisation
                 Cm- Amphi A -
-                <a href="#profForm" class="prof-name">Prof. A. El Mouatasim</a>
-            <div class="chapters">
+                <a href="#profForm" class="prof-nom">Prof. A. El Mouatasim</a>
+            <div class="chapitres">
                 <h4>Cours:</h4>
                 <ol>
                     <li>Chapitre 1: Outils d’optimisation.</li>
@@ -299,19 +273,19 @@
         <form>
             <div>
                 <label>Nom :</label>
-                <input type="text" class="form-field" id="profFullName" value="K. Omari">
+                <input type="text" class="form-champ">
             </div>
             <div>
                 <label>Pénom :</label>
-                <input type="text" class="form-field" id="profFullName" value="K. Omari">
+                <input type="text" class="form-champ">
             </div>
             <div>
                 <label>Sujet :</label>
-                <input type="email" class="form-field" id="profEmail">
+                <input type="text" class="form-champ">
             </div>
             <div>
                 <label>Description :</label>
-                <input type="tel" class="form-field" id="profPhone">
+                <input type="text" class="form-champ">
             </div>
             <button type="submit">Envoyer</button>
             <button type="submit">Annuler</button>
