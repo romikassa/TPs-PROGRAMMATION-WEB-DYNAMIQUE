@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Exercice 1</title>
+</head>
+<body>
+
+<script>
+  let input1 = prompt("Saisir le premier nombre :");
+  let input2 = prompt("Saisir le deuxième nombre :");
+  if (input1 === null || input2 === null) {
+    console.log("Opération annulée");
+  } else {
+    let X = parseFloat(input1);
+    let Y = parseFloat(input2);
+
+    if (isNaN(X) || isNaN(Y)) {
+      console.log("Entrez des nombres valide !");
+    } else {
+      let somme = X + Y;
+      let difference = X - Y;
+      let produit = X * Y;
+      let quotient = (Y !== 0) ? (X / Y) : "Division par zéro impossible";
+      console.log(`Résultats pour ${X} et ${Y} :`);
+      console.log(`Somme : ${somme}`);
+      console.log(`Différence : ${difference}`);
+      console.log(`Produit : ${produit}`);
+      console.log(`Quotient : ${quotient}`);
+    }
+  }
+</script>
+
+</body>
+</html>

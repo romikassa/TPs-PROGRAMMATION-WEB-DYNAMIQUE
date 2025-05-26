@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 2</title>
+</head>
+<body>
+    <h1>Devinez le nombre entre 1 et 10</h1>
+    <p id="indice"></p>
+
+    <script>
+        const nombreSecret = Math.floor(Math.random() * 10) + 1;
+        let tentatives = 0;
+        
+        function deviner() {
+            let proposition = prompt("Devinez le nombre (entre 1 et 10):");
+            if (proposition === null) {
+                document.getElementById('indice').textContent = "Jeu annulé. Le nombre était " + nombreSecret;
+                return;
+            }
+            proposition = parseInt(proposition, 10);
+            tentatives++;
+            if (isNaN(proposition) || proposition < 1 || proposition > 10) {
+                alert("Veuillez entrer un nombre valide entre 1 et 10");
+                deviner();
+                return;
+            }
+            if (proposition < nombreSecret) {
+                alert("C'est plus grand !");
+                deviner();
+            } else if (proposition > nombreSecret) {
+                alert("C'est plus petit !");
+                deviner();
+            } else {
+                document.getElementById('indice').textContent = 
+                    "Bravo ! Vous avez trouvé " + nombreSecret + " en " + tentatives + " tentative(s).";
+            }
+        }
+        console.log("Nombre secret (pour test):", nombreSecret);
+        deviner();
+    </script>
+</body>
+</html>
