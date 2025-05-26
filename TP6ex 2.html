@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice 6 2</title>
+    <style>
+        body{
+            font-family: 'Arial', sans-serif;
+            background-color: #be7798;
+            display: flex;
+            justify-content: center;}<!--ca permet centrer la barre-->
+        .container{
+            background: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;}
+        h1{
+            color: #333;
+            text-align: center;}
+
+        #todo-form{
+            display: flex;
+            margin-bottom: 20px;}
+        #todo-input{
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;}
+        #todo-form button{
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;}
+        #todo-form button:hover{
+            background-color: #45a049;}
+        #todo-list{
+            list-style: none;
+            padding: 0;}
+        .todo-item{
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;}
+        .todo-item.completed{
+            text-decoration: line-through;
+            color: #888;}
+        .todo-text{
+            flex: 1;
+            margin-left: 10px;}
+        .todo-actions button{
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 5px;}
+        .complete-btn{
+            color: #075f0a;}
+        .delete-btn{
+            color: #b30c00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>~~Ma To-do Liste~~~</h1>
+        <form id="todo-form">
+            <input type="text" id="todo-input" placeholder="Ajouter une nouvelle tâche..." required>
+            <button type="submit">Ajouter</button>
+        </form>
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const todoForm = document.getElementById('todo-form');
+            const todoInput = document.getElementById('todo-input');
+            const todoList = document.getElementById('todo-list');
+
+            todoForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const newTaskText = todoInput.value.trim();
+                
+                if (newTaskText) {
+                    addTodoItem(newTaskText);
+                    todoInput.value = '';
+                }
+            });
+            function addTodoItem(text) {
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'complete-btn';
+                const span = document.createElement('span');
+                span.className = 'todo-text';
+                span.textContent = text;
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.innerHTML = '&times;';
+
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(deleteBtn);
+                todoList.appendChild(li);
+                checkbox.addEventListener('change', function() {
+                    li.classList.toggle('completed', this.checked);
+                });
+                deleteBtn.addEventListener('click', function() {
+                    li.remove();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
