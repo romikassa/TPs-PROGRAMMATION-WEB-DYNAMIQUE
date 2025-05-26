@@ -1,0 +1,296 @@
+<!-- EXERCICE 1 -->
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $num1 = (float)$_POST['num1'];
+    $num2 = (float)$_POST['num2'];
+    $operation = $_POST['operation'];
+    switch($operation) {
+        case 'add': $result = $num1 + $num2; break;
+        case 'sub': $result = $num1 - $num2; break;
+        case 'mul': $result = $num1 * $num2; break;
+        case 'div': $result = ($num2 != 0) ? $num1 / $num2 : "Erreur: division par zéro"; break;
+    }
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculatrice</title>
+    <style>
+        body { font-family: Arial; max-width: 300px; margin: 50px auto; }
+        form { display: flex; flex-direction: column; gap: 10px; }
+        input, select, button { padding: 8px; font-size: 16px; }
+        .result { margin-top: 20px; padding: 10px; background: #f5f5f5; }
+    </style>
+</head>
+<body>
+    <h2>Calculatrice</h2>
+    <form method="post">
+        <input type="number" name="num1" placeholder="Nombre 1" required>
+        <select name="operation">
+            <option value="add">+ Addition</option>
+            <option value="sub">- Soustraction</option>
+            <option value="mul">× Multiplication</option>
+            <option value="div">÷ Division</option>
+        </select>
+        <input type="number" name="num2" placeholder="Nombre 2" required>
+        <button type="submit">Calculer</button>
+    </form>
+    <?php if(isset($result)): ?>
+        <div class="result">Résultat: <?= $result ?></div>
+    <?php endif; ?>
+</body>
+</html>
+
+<!-- EXERCICE 2 -->
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $length = (int)$_POST['length'];
+    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+    $password = '';
+    for ($i = 0; $i < $length; $i++) {
+        $password .= $chars[rand(0, strlen($chars) - 1)];
+    }
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Générateur de mot de passe</title>
+    <style>
+        body { font-family: Arial; max-width: 300px; margin: 50px auto; }
+        input, button { padding: 8px; font-size: 16px; }
+        .password { margin-top: 20px; padding: 10px; background: #f5f5f5; word-break: break-all; }
+    </style>
+</head>
+<body>
+    <h2>Générateur de mot de passe</h2>
+    <form method="post">
+        Longueur: <input type="number" name="length" min="8" max="32" value="12" required>
+        <button type="submit">Générer</button>
+    </form>
+    <?php if(isset($password)): ?>
+        <div class="password">Mot de passe: <?= htmlspecialchars($password) ?></div>
+    <?php endif; ?>
+</body>
+</html>
+<!-- EXERCICE 3 -->
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nom = htmlspecialchars($_POST['nom'] ?? '');
+    $email = htmlspecialchars($_POST['email'] ?? '');
+    $message = htmlspecialchars($_POST['message'] ?? '');
+    $is_valid = !empty($nom) && !empty($email) && !empty($message);
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact</title>
+    <style>
+        body { font-family: Arial; max-width: 500px; margin: 50px auto; }
+        form { display: flex; flex-direction: column; gap: 10px; }
+        input, textarea, button { padding: 8px; font-size: 16px; }
+        .result { margin-top: 20px; padding: 10px; background: #f5f5f5; }
+    </style>
+</head>
+<body>
+    <h2>Formulaire de contact</h2>
+    <form method="post">
+        <input type="text" name="nom" placeholder="Votre nom" required>
+        <input type="email" name="email" placeholder="Votre email" required>
+        <textarea name="message" placeholder="Votre message" rows="5" required></textarea>
+        <button type="submit">Envoyer</button>
+    </form>
+    <?php if($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+        <div class="result">
+            <?php if($is_valid): ?>
+                <p>Merci <?= $nom ?> pour votre message!</p>
+                <p>Nous vous répondrons à <?= $email ?>.</p>
+            <?php else: ?>
+                <p style="color:red;">Veuillez remplir tous les champs!</p>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</body>
+</html>
+<!-- EXERCICE 4 -->
+<?php
+session_start();
+
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: auth.php");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
+    if ($_POST['username'] === 'admin' && $_POST['password'] === 'password123') {
+        $_SESSION['user'] = 'admin';
+    } else {
+        $error = "Identifiants incorrects!";
+    }
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentification</title>
+    <style>
+        body { font-family: Arial; max-width: 300px; margin: 50px auto; }
+        form { display: flex; flex-direction: column; gap: 10px; }
+        input, button { padding: 8px; font-size: 16px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <?php if(isset($_SESSION['user'])): ?>
+        <h2>Bienvenue <?= $_SESSION['user'] ?>!</h2>
+        <form method="post">
+            <button type="submit" name="logout">Déconnexion</button>
+        </form>
+    <?php else: ?>
+        <h2>Connexion</h2>
+        <?php if(isset($error)): ?>
+            <p class="error"><?= $error ?></p>
+        <?php endif; ?>
+        <form method="post">
+            <input type="text" name="username" placeholder="Identifiant" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <button type="submit" name="login">Se connecter</button>
+        </form>
+    <?php endif; ?>
+</body>
+</html>
+<!-- EXERCICE 5 -->
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = htmlspecialchars($_POST['name'] ?? '');
+    $message = htmlspecialchars($_POST['message'] ?? '');
+    
+    if (!empty($name) && !empty($message)) {
+        $entry = date('Y-m-d H:i:s')." | ".$name." | ".$message."\n";
+        file_put_contents('guestbook.txt', $entry, FILE_APPEND);
+    }
+}
+
+$entries = [];
+if(file_exists('guestbook.txt')) {
+    $entries = array_reverse(file('guestbook.txt'));
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Livre d'or</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; }
+        form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+        input, textarea, button { padding: 8px; font-size: 16px; }
+        .entry { margin-bottom: 20px; padding: 10px; border-bottom: 1px solid #ddd; }
+        .date { color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h2>Livre d'or</h2>
+    <form method="post">
+        <input type="text" name="name" placeholder="Votre nom" required>
+        <textarea name="message" placeholder="Votre message" rows="3" required></textarea>
+        <button type="submit">Envoyer</button>
+    </form>
+    
+    <h3>Messages:</h3>
+    <?php foreach($entries as $entry): 
+        list($date, $name, $message) = explode(" | ", $entry); ?>
+        <div class="entry">
+            <p><?= $message ?></p>
+            <p class="date">Par <?= $name ?> le <?= $date ?></p>
+        </div>
+    <?php endforeach; ?>
+</body>
+</html>
+<!-- EXERCICE 6 -->
+<?php
+$questions = [
+    [
+        'question' => "Quelle est la capitale de la France?",
+        'options' => ['Londres', 'Paris', 'Berlin'],
+        'answer' => 1
+    ],
+    [
+        'question' => "2 + 2 = ?",
+        'options' => ['3', '4', '5'],
+        'answer' => 1
+    ],
+    [
+        'question' => "Quelle planète est appelée 'planète rouge'?",
+        'options' => ['Vénus', 'Mars', 'Jupiter'],
+        'answer' => 1
+    ]
+];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $score = 0;
+    $results = [];
+    foreach($questions as $i => $question) {
+        $user_answer = (int)$_POST['q'.$i];
+        $is_correct = $user_answer === $question['answer'];
+        if ($is_correct) $score++;
+        
+        $results[] = [
+            'question' => $question['question'],
+            'user_answer' => $question['options'][$user_answer],
+            'correct_answer' => $question['options'][$question['answer']],
+            'is_correct' => $is_correct
+        ];
+    }
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; }
+        .question { margin-bottom: 20px; }
+        .result { margin-top: 30px; }
+        .correct { color: green; }
+        .incorrect { color: red; }
+    </style>
+</head>
+<body>
+    <h2>Quiz</h2>
+    
+    <?php if(!isset($results)): ?>
+        <form method="post">
+            <?php foreach($questions as $i => $question): ?>
+                <div class="question">
+                    <h3><?= $question['question'] ?></h3>
+                    <?php foreach($question['options'] as $j => $option): ?>
+                        <label>
+                            <input type="radio" name="q<?= $i ?>" value="<?= $j ?>" required>
+                            <?= $option ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+            <?php endforeach; ?>
+            <button type="submit">Valider</button>
+        </form>
+    <?php else: ?>
+        <div class="result">
+            <h3>Votre score: <?= $score ?>/<?= count($questions) ?></h3>
+            
+            <?php foreach($results as $result): ?>
+                <div class="question <?= $result['is_correct'] ? 'correct' : 'incorrect' ?>">
+                    <p><strong><?= $result['question'] ?></strong></p>
+                    <p>Votre réponse: <?= $result['user_answer'] ?></p>
+                    <p>Réponse correcte: <?= $result['correct_answer'] ?></p>
+                </div>
+            <?php endforeach; ?>
+            
+            <a href="quiz.php">Refaire le quiz</a>
+        </div>
+    <?php endif; ?>
+</body>
+</html>
