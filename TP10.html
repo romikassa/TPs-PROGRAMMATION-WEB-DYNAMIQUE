@@ -1,0 +1,226 @@
+// -------------------
+// Exercice 1 : Sessions
+// -------------------
+
+// config.php
+<?php
+define('USERLOGIN', 'itisme');
+define('USERPASS', 'justme');
+?>
+
+// login.php
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Login</title></head>
+<body>
+<h2>Connexion</h2>
+<?php
+if (isset($_GET['erreur'])) {
+    switch ($_GET['erreur']) {
+        case 1: echo "<p style='color:red;'>Veuillez saisir un login et un mot de passe</p>"; break;
+        case 2: echo "<p style='color:red;'>Erreur de login/mot de passe</p>"; break;
+        case 3: echo "<p style='color:red;'>Vous avez été déconnecté du service</p>"; break;
+    }
+}
+?>
+<form action="validation.php" method="post">
+    <label>Login : <input type="text" name="login"></label><br>
+    <label>Mot de passe : <input type="password" name="password"></label><br>
+    <input type="submit" value="Connexion">
+</form>
+</body>
+</html>
+
+// validation.php
+<?php
+session_start();
+require 'config.php';
+
+if (isset($_GET['afaire']) && $_GET['afaire'] === 'deconnexion') {
+    session_destroy();
+    header('Location: login.php?erreur=3');
+    exit();
+}
+
+$login = $_POST['login'] ?? '';
+$password = $_POST['password'] ?? '';
+
+if (empty($login) || empty($password)) {
+    header('Location: login.php?erreur=1');
+    exit();
+}
+
+if ($login !== USERLOGIN || $password !== USERPASS) {
+    header('Location: login.php?erreur=2');
+    exit();
+}
+
+$_SESSION['CONNECT'] = 'OK';
+$_SESSION['login'] = $login;
+header('Location: accueil.php');
+exit();
+?>
+
+// accueil.php
+<?php
+session_start();
+if (!isset($_SESSION['CONNECT']) || $_SESSION['CONNECT'] !== 'OK') {
+    header('Location: login.php');
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Accueil</title></head>
+<body>
+<h1>Hello <?= htmlspecialchars($_SESSION['login']) ?></h1>
+<a href="validation.php?afaire=deconnexion">Déconnexion</a>
+</body>
+</html>
+
+
+// -------------------
+// Exercice 2 : CRUD MySQL
+// -------------------
+
+// Connexion (db.php)
+<?php
+$pdo = new PDO("mysql:host=localhost;dbname=TP10", "root", "", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+?>
+
+// index.php (ajout + liste)
+<?php
+require 'db.php';
+$msg = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $stmt = $pdo->prepare("INSERT INTO exercice (titre, auteur, date_creation) VALUES (?, ?, ?)");
+    $stmt->execute([$_POST['titre'], $_POST['auteur'], $_POST['date_creation']]);
+    $msg = 'Exercice ajouté !';
+}
+$exercices = $pdo->query("SELECT * FROM exercice")->fetchAll();
+?>
+<!DOCTYPE html>
+<html><body>
+<h2>Ajouter un exercice</h2>
+<p><?= $msg ?></p>
+<form method="post">
+    <input name="titre" placeholder="Titre" required>
+    <input name="auteur" placeholder="Auteur" required>
+    <input type="date" name="date_creation" required>
+    <button type="submit">Ajouter</button>
+</form>
+<h2>Liste des exercices</h2>
+<table border="1">
+<tr><th>ID</th><th>Titre</th><th>Auteur</th><th>Date</th><th>Actions</th></tr>
+<?php foreach ($exercices as $e): ?>
+<tr>
+    <td><?= $e['id'] ?></td>
+    <td><?= $e['titre'] ?></td>
+    <td><?= $e['auteur'] ?></td>
+    <td><?= $e['date_creation'] ?></td>
+    <td>
+        <a href="edit.php?id=<?= $e['id'] ?>">Modifier</a>
+        <a href="delete.php?id=<?= $e['id'] ?>">Supprimer</a>
+    </td>
+</tr>
+<?php endforeach; ?>
+</table>
+</body></html>
+
+// edit.php
+<?php
+require 'db.php';
+$id = $_GET['id'];
+$stmt = $pdo->prepare("SELECT * FROM exercice WHERE id = ?");
+$stmt->execute([$id]);
+$exercice = $stmt->fetch();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $stmt = $pdo->prepare("UPDATE exercice SET titre=?, auteur=?, date_creation=? WHERE id=?");
+    $stmt->execute([$_POST['titre'], $_POST['auteur'], $_POST['date_creation'], $id]);
+    header("Location: index.php");
+}
+?>
+<form method="post">
+    <input name="titre" value="<?= $exercice['titre'] ?>">
+    <input name="auteur" value="<?= $exercice['auteur'] ?>">
+    <input type="date" name="date_creation" value="<?= $exercice['date_creation'] ?>">
+    <button type="submit">Modifier</button>
+</form>
+
+// delete.php
+<?php
+require 'db.php';
+$id = $_GET['id'];
+$pdo->prepare("DELETE FROM exercice WHERE id = ?")->execute([$id]);
+header("Location: index.php");
+?>
+
+
+// -------------------
+// Exercice 3 : Jeu de combat
+// -------------------
+
+// DB table:
+CREATE TABLE guerriers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(50) UNIQUE,
+    degats INT DEFAULT 0
+);
+
+// classe Guerrier.php
+<?php
+class Guerrier {
+    public $id, $nom, $degats;
+    public function __construct($data) {
+        $this->id = $data['id'];
+        $this->nom = $data['nom'];
+        $this->degats = $data['degats'];
+    }
+    public function frapper($victime, $pdo) {
+        $victime->degats += 5;
+        if ($victime->degats >= 100) {
+            $pdo->prepare("DELETE FROM guerriers WHERE id = ?")->execute([$victime->id]);
+        } else {
+            $pdo->prepare("UPDATE guerriers SET degats = ? WHERE id = ?")
+                ->execute([$victime->degats, $victime->id]);
+        }
+    }
+}
+?>
+
+// index.php (jeu)
+<?php
+require 'db.php';
+require 'Guerrier.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $pdo->prepare("INSERT INTO guerriers (nom) VALUES (?)")->execute([$_POST['nom']]);
+}
+
+$guerriers = $pdo->query("SELECT * FROM guerriers")->fetchAll(PDO::FETCH_ASSOC);
+$guerriers = array_map(fn($g) => new Guerrier($g), $guerriers);
+
+if (isset($_GET['frappeur']) && isset($_GET['victime'])) {
+    $frappeur = new Guerrier($pdo->query("SELECT * FROM guerriers WHERE id=" . (int)$_GET['frappeur'])->fetch());
+    $victime = new Guerrier($pdo->query("SELECT * FROM guerriers WHERE id=" . (int)$_GET['victime'])->fetch());
+    $frappeur->frapper($victime, $pdo);
+    header("Location: index.php");
+}
+?>
+<form method="post">
+    <input name="nom" placeholder="Nom du guerrier" required>
+    <button type="submit">Créer Guerrier</button>
+</form>
+<h3>Liste des guerriers</h3>
+<ul>
+<?php foreach ($guerriers as $g): ?>
+    <li>
+        <?= htmlspecialchars($g->nom) ?> (<?= $g->degats ?> dégats)
+        <?php foreach ($guerriers as $cible): if ($g->id !== $cible->id): ?>
+            <a href="?frappeur=<?= $g->id ?>&victime=<?= $cible->id ?>">Frapper <?= $cible->nom ?></a>
+        <?php endif; endforeach; ?>
+    </li>
+<?php endforeach; ?>
+</ul>
