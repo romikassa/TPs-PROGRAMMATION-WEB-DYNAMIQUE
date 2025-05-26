@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire TP7</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: inline-block;
+            width: 180px;
+            margin-bottom: 5px;
+        }
+        input, select, textarea {
+            padding: 8px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9f7ef;
+            border-radius: 5px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Formulaire d'inscription</h1>
+
+        <?php
+        // Simulation de vérification "base de données"
+        function checkInDatabase($email) {
+            $existingUsers = ['admin@test.com', 'user@example.com'];
+            return in_array($email, $existingUsers);
+        }
+
+        $showForm = true;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Nettoyage des données
+            $titre = htmlspecialchars($_POST['titre'] ?? '');
+            $nom = htmlspecialchars($_POST['nom'] ?? '');
+            $prenom = htmlspecialchars($_POST['prenom'] ?? '');
+            $annee = htmlspecialchars($_POST['annee'] ?? '');
+            $email = htmlspecialchars($_POST['email'] ?? '');
+            $password = htmlspecialchars($_POST['password'] ?? '');
+            $sexe = htmlspecialchars($_POST['sexe'] ?? '');
+            $debutant = isset($_POST['debutant']) ? 'Oui' : 'Non';
+
+            // Vérification
+            $inDatabase = checkInDatabase($email);
+            $showForm = false;
+
+            echo '<div class="result">';
+            echo "<h2>Merci pour votre inscription !</h2>";
+            echo "<p><strong>Statut base de données :</strong> " . ($inDatabase ? 'Utilisateur existant' : 'Nouvel utilisateur') . "</p>";
+            
+            if ($inDatabase) {
+                echo "<p class='error'>Cet email est déjà enregistré dans notre base de données.</p>";
+            } else {
+                echo "<p>Vos informations ont été enregistrées avec succès.</p>";
+                // Insertion en base de données possible ici
+            }
+
+            echo "<h3>Vos informations :</h3>";
+            echo "<ul>";
+            echo "<li><strong>Civilité :</strong> $titre</li>";
+            echo "<li><strong>Nom :</strong> $nom</li>";
+            echo "<li><strong>Prénom :</strong> $prenom</li>";
+            echo "<li><strong>Année de naissance :</strong> $annee</li>";
+            echo "<li><strong>Email :</strong> $email</li>";
+            echo "<li><strong>Sexe :</strong> " . ($sexe === 'M' ? 'Masculin' : 'Féminin') . "</li>";
+            echo "<li><strong>Débutant :</strong> $debutant</li>";
+            echo "</ul>";
+            echo '<p><a href="' . htmlspecialchars($_SERVER['PHP_SELF']) . '">Nouvelle inscription</a></p>';
+            echo '</div>';
+        }
+
+        if ($showForm):
+        ?>
+
+        <form method="POST">
+            <label for="titre">Civilité:</label>
+            <select name="titre" id="titre" required>
+                <option value="M">Monsieur</option>
+                <option value="Mme">Madame</option>
+                <option value="Mlle">Mademoiselle</option>
+            </select>
+
+            <label for="nom">Nom:</label>
+            <input type="text" name="nom" id="nom" required>
+
+            <label for="prenom">Prénom:</label>
+            <input type="text" name="prenom" id="prenom" required>
+
+            <label for="annee">Année de naissance:</label>
+            <input type="number" name="annee" id="annee" min="1900" max="<?= date('Y') ?>" required>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="password">Mot de passe:</label>
+            <input type="password" name="password" id="password" required>
+
+            <label>Sexe:</label>
+            <div>
+                <input type="radio" name="sexe" id="sexe_m" value="M" checked>
+                <label for="sexe_m" style="width:auto;">Masculin</label>
+                <input type="radio" name="sexe" id="sexe_f" value="F">
+                <label for="sexe_f" style="width:auto;">Féminin</label>
+            </div>
+
+            <input type="checkbox" name="debutant" id="debutant">
+            <label for="debutant" style="width:auto;">Je débute en PHP</label>
+
+            <br><br>
+            <input type="submit" value="S'inscrire">
+        </form>
+
+        <?php endif; ?>
+    </div>
+</body>
+</html>
