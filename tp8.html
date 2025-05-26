@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculatrice PHP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .result, .error {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .result {
+            background: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+        }
+        .error {
+            background: #ffebee;
+            border-left: 5px solid #f44336;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Calculatrice</h1>
+
+<form method="post">
+    <input type="number" step="any" name="num1" placeholder="Premier nombre" required
+           value="<?= isset($_POST['num1']) ? htmlspecialchars($_POST['num1']) : '' ?>">
+    <select name="operation">
+        <option value="add" <?= (isset($_POST['operation']) && $_POST['operation'] == 'add') ? 'selected' : '' ?>>+</option>
+        <option value="sub" <?= (isset($_POST['operation']) && $_POST['operation'] == 'sub') ? 'selected' : '' ?>>-</option>
+        <option value="mul" <?= (isset($_POST['operation']) && $_POST['operation'] == 'mul') ? 'selected' : '' ?>>×</option>
+        <option value="div" <?= (isset($_POST['operation']) && $_POST['operation'] == 'div') ? 'selected' : '' ?>>÷</option>
+    </select>
+    <input type="number" step="any" name="num2" placeholder="Deuxième nombre" required
+           value="<?= isset($_POST['num2']) ? htmlspecialchars($_POST['num2']) : '' ?>">
+    <button type="submit">Calculer</button>
+</form>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $num1 = $_POST['num1'];
+    $num2 = $_POST['num2'];
+    $op = $_POST['operation'];
+
+    if (!is_numeric($num1) || !is_numeric($num2)) {
+        echo '<div class="error">Entrée invalide</div>';
+    } else {
+        $num1 = (float)$num1;
+        $num2 = (float)$num2;
+        $result = '';
+
+        switch ($op) {
+            case 'add': $result = "$num1 + $num2 = " . ($num1 + $num2); break;
+            case 'sub': $result = "$num1 - $num2 = " . ($num1 - $num2); break;
+            case 'mul': $result = "$num1 × $num2 = " . ($num1 * $num2); break;
+            case 'div':
+                if ($num2 != 0) {
+                    $result = "$num1 ÷ $num2 = " . ($num1 / $num2);
+                } else {
+                    echo '<div class="error">Division par zéro impossible</div>';
+                    exit;
+                }
+                break;
+            default:
+                echo '<div class="error">Opération invalide</div>';
+                exit;
+        }
+
+        echo "<div class='result'><strong>Résultat :</strong><br>$result</div>";
+    }
+}
+?>
+</body>
+</html>
