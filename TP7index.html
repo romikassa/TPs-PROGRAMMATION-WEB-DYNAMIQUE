@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire TP7</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 0 auto; padding: 20px; }
+        form { margin: 20px 0; }
+        label { display: inline-block; width: 150px; margin-bottom: 10px; }
+        input[type="text"], input[type="password"], input[type="number"], select {
+            padding: 8px; width: 200px; margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background: #4CAF50; color: white; padding: 10px 15px;
+            border: none; cursor: pointer; margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulaire d'inscription au activités</h1>
+<form action="TP7reponse.php" method="POST" enctype="multipart/form-data">        <label for="titre">Civilité:</label>
+        <select name="titre" id="titre" required>
+            <option value="M">Monsieur</option>
+            <option value="Mme">Madame</option>
+            <option value="Mlle">Mademoiselle</option>
+        </select><br>
+        <label for="nom">Nom:</label>
+        <input type="text" name="nom" id="nom" required><br>
+        <label for="prenom">Prénom:</label>
+        <input type="text" name="prenom" id="prenom" required><br>
+        <label for="annee">Année de naissance:</label>
+        <input type="number" name="annee" id="annee" min="1900" max="2023"><br>
+        <label for="identifiant">Identifiant:</label>
+        <input type="text" name="identifiant" id="identifiant" required><br>
+        <label for="mdp">Mot de passe:</label>
+        <input type="password" name="mdp" id="mdp" required><br>
+        <label>Sexe:</label>
+        <input type="radio" name="sexe" value="M" checked> Masculin
+        <input type="radio" name="sexe" value="F"> Féminin<br>
+
+        <label for="debutant" style="width:auto">
+            <input type="checkbox" name="debutant" id="debutant" checked>
+            Je débute en PHP
+        </label><br>
+        <input type="submit" value="Envoyer">
+    </form>
+</body>
+</html>
